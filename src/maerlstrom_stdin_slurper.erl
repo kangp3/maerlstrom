@@ -12,16 +12,15 @@ init([]) ->
     {ok, []}.
 
 start_loop() ->
-    {ok, Fd} = file:open("asdf.txt", [read, raw]),
-    loop({Fd}).
+    loop().
 
-loop({Fd}) ->
-    case file:read_line(Fd) of
-        {ok, Data} ->
-            io:format("GOT LINE: ~s", [Data]),
-            loop({Fd});
+loop() ->
+    case io:get_line("") of
         eof ->
-            loop({Fd})
+            loop();
+        Data ->
+            io:format("GOT LINE: ~s", [Data]),
+            loop()
     end.
 
 handle_call(hello, _From, _State) ->
